@@ -157,7 +157,6 @@ def draw(two_d_list_temp, len_row_temp, len_col_temp):
     for i in range(len(two_d_list_temp)):
         for j in range(len(two_d_list_temp[i])):
             if two_d_list_temp[i][j] == 'b':
-                print(i, j)
                 x1 = np.linspace(j, j + 1, 10)
                 ax.fill_between(x1, len_col_temp - 1 - i, len_col_temp - i, facecolor='black')
             if two_d_list_temp[i][j] == 'w':
@@ -175,14 +174,21 @@ def draw(two_d_list_temp, len_row_temp, len_col_temp):
 len_row = 6
 len_col = 8
 two_d_list = [[0 for i in range(len_row)] for _ in range(len_col)]
-# set init
-for i in range(len(two_d_list)):
-    for j in range(len(two_d_list[i])):
-        text = "(i, j)" + "(" + str(i) + ", " + str(j) + "):"
-        set_input = input(text)
-        two_d_list[i][j] = set_input
+# # set init
+# for i in range(len(two_d_list)):
+#     for j in range(len(two_d_list[i])):
+#         text = "(i, j)" + "(" + str(i) + ", " + str(j) + "):"
+#         set_input = input(text)
+#         two_d_list[i][j] = set_input
 
-print(two_d_list)
+two_d_list = [['0', '0', '0', '0', 'w', '0'],
+              ['0', 'w', '0', '0', 'b', '0'],
+              ['w', 'b', 'b', '0', 'w', '0'],
+              ['0', '0', '0', '0', '0', '0'],
+              ['0', 'b', 'w', 'b', '0', 'w'],
+              ['0', 'w', 'b', 'w', '0', '0'],
+              ['0', 'b', 'w', 'b', '0', '0'],
+              ['0', '0', '0', 'b', '0', '0']]
 
 # main
 run_times = 0
@@ -208,13 +214,5 @@ for a in range(run_times):
     two_d_list = full_last_row(two_d_list)
     two_d_list = full_last_col(two_d_list)
 
-two_d_list = [['0', '0', '0', '0', 'w', '0'],
-              ['0', 'w', '0', '0', 'b', '0'],
-              ['w', '0', 'b', '0', 'w', '0'],
-              ['0', '0', '0', '0', '0', '0'],
-              ['0', 'b', 'w', 'b', '0', 'w'],
-              ['0', 'w', 'b', 'w', '0', '0'],
-              ['0', 'b', 'w', 'b', '0', '0'],
-              ['0', '0', '0', 'b', '0', '0']]
 
 draw(two_d_list, len_row, len_col)
