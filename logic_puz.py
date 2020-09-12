@@ -146,14 +146,15 @@ rule2_col_jump_list = find_col_jump(two_d_list)
 two_d_list, count_change_time_col_jump = set_col_jump_value(rule2_col_jump_list, two_d_list)
 
 # main
-count_change_time = 1
-while count_change_time != 0:
-    rule2_row_jump_list = find_row_jump(two_d_list)
-    two_d_list, count_change_time = set_row_jump_value(rule2_row_jump_list, two_d_list)
+
 count_change_time = 1
 while count_change_time != 0:
     rule2_row_continue_list = find_row_continue(two_d_list)
     two_d_list, count_change_time = set_row_continue_value(rule2_row_continue_list, two_d_list, len_row)
+count_change_time = 1
+while count_change_time != 0:
+    rule2_row_jump_list = find_row_jump(two_d_list)
+    two_d_list, count_change_time = set_row_jump_value(rule2_row_jump_list, two_d_list)
 count_change_time = 1
 while count_change_time != 0:
     rule2_col_continue_list = find_col_continue(two_d_list)
