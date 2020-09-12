@@ -1,3 +1,6 @@
+import numpy as np
+
+
 def find_row_continue(two_d_list_temp):
     rule2_row_continue_list_temp = list()
     for i in range(len(two_d_list_temp)):
@@ -122,45 +125,74 @@ def set_col_jump_value(rule2_col_jump_list_temp, two_d_list_temp):
     return two_d_list_temp, count_change_time_temp
 
 
+def full_last_row(two_d_list_temp):
+    num = len(two_d_list_temp[0]) / 2
+    count_w_list = list()
+    count_b_list = list()
+    count_0_list = list()
+    for i in range(len(two_d_list_temp)):
+        count_w_list.append(two_d_list_temp[i].count('w'))
+        count_b_list.append(two_d_list_temp[i].count('b'))
+        count_0_list.append(two_d_list_temp[i].count('0'))
+    for i in range(len(count_0_list)):
+        if count_0_list[i] == 1:
+            if count_w_list[i] == num - 1:
+                two_d_list_temp[i][two_d_list_temp[i].index('0')] = 'w'
+            if count_b_list[i] == num - 1:
+                two_d_list_temp[i][two_d_list_temp[i].index('0')] = 'b'
+    return two_d_list_temp
+
+
+def full_last_col(two_d_list_temp):
+    two_d_list_temp_trans = np.transpose(two_d_list_temp)
+    full_last_row(two_d_list_temp_trans.tolist())
+    two_d_list_temp = np.transpose(full_last_row(two_d_list_temp_trans.tolist())).tolist()
+
+    return two_d_list_temp
+
+
 # # built
 len_row = 6
 len_col = 8
 two_d_list = [[0 for i in range(len_row)] for _ in range(len_col)]
-# # set init
-# for i in range(len(two_d_list)):
-#     for j in range(len(two_d_list[i])):
-#         text = "(i, j)" + "(" + str(i) + ", " + str(j) + "):"
-#         seinput = input(text)
-#         two_d_list[i][j] = seinput
+# set init
+for i in range(len(two_d_list)):
+    for j in range(len(two_d_list[i])):
+        text = "(i, j)" + "(" + str(i) + ", " + str(j) + "):"
+        seinput = input(text)
+        two_d_list[i][j] = seinput
 
-two_d_list = [['w', '0', '0', 'w', 'w', '0'],
-              ['0', 'w', 'b', 'w', '0', '0'],
-              ['0', '0', '0', '0', '0', '0'],
-              ['0', '0', 'b', 'w', 'b', '0'],
-              ['w', '0', '0', 'w', '0', 'w'],
-              ['0', 'w', 'b', '0', '0', '0'],
-              ['0', 'b', 'w', 'w', 'b', '0'],
-              ['0', '0', '0', '0', 'b', 'b']]
-
-rule2_col_jump_list = find_col_jump(two_d_list)
-two_d_list, count_change_time_col_jump = set_col_jump_value(rule2_col_jump_list, two_d_list)
+print(two_d_list)
 
 # main
+run_times = 0
+for list_ in two_d_list:
+    run_times += list_.count('0')
+for a in range(run_times):
+    count_change_time = 1
+    while count_change_time != 0:
+        rule2_row_continue_list = find_row_continue(two_d_list)
+        two_d_list, count_change_time = set_row_continue_value(rule2_row_continue_list, two_d_list, len_row)
+    count_change_time = 1
+    while count_change_time != 0:
+        rule2_row_jump_list = find_row_jump(two_d_list)
+        two_d_list, count_change_time = set_row_jump_value(rule2_row_jump_list, two_d_list)
+    count_change_time = 1
+    while count_change_time != 0:
+        rule2_col_continue_list = find_col_continue(two_d_list)
+        two_d_list, count_change_time = set_col_continue_value(rule2_col_continue_list, two_d_list, len_col)
+    count_change_time = 1
+    while count_change_time != 0:
+        rule2_col_jump_list = find_col_jump(two_d_list)
+        two_d_list, count_change_time = set_col_jump_value(rule2_col_jump_list, two_d_list)
+    two_d_list = full_last_row(two_d_list)
+    two_d_list = full_last_col(two_d_list)
 
-count_change_time = 1
-while count_change_time != 0:
-    rule2_row_continue_list = find_row_continue(two_d_list)
-    two_d_list, count_change_time = set_row_continue_value(rule2_row_continue_list, two_d_list, len_row)
-count_change_time = 1
-while count_change_time != 0:
-    rule2_row_jump_list = find_row_jump(two_d_list)
-    two_d_list, count_change_time = set_row_jump_value(rule2_row_jump_list, two_d_list)
-count_change_time = 1
-while count_change_time != 0:
-    rule2_col_continue_list = find_col_continue(two_d_list)
-    two_d_list, count_change_time = set_col_continue_value(rule2_col_continue_list, two_d_list, len_col)
-count_change_time = 1
-while count_change_time != 0:
-    rule2_col_jump_list = find_col_jump(two_d_list)
-    two_d_list, count_change_time = set_col_jump_value(rule2_col_jump_list, two_d_list)
-
+two_d_list = [['w', 'w', 'b', 'w', 'b', 'b'],
+              ['w', 'b', 'w', 'b', 'w', 'b'],
+              ['b', 'b', 'w', 'w', 'b', 'w'],
+              ['b', 'w', 'b', 'b', 'w', 'w'],
+              ['w', 'w', 'b', 'b', 'w', 'b'],
+              ['w', 'b', 'w', 'w', 'b', 'b'],
+              ['b', 'b', 'w', 'b', 'w', 'w'],
+              ['b', 'w', 'b', 'w', 'b', 'w']]
